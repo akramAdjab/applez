@@ -6,8 +6,8 @@ import Row from "../../ui/Row";
 import ProductItemRow from "../../ui/ProductItemRow";
 
 import { countryName, formatCurrency } from "../../utilis/helpers";
-import Button from "../../ui/Button";
-import { useNavigate } from "react-router-dom";
+// import Button from "../../ui/Button";
+// import { useNavigate } from "react-router-dom";
 
 const StyledOrderDetails = styled.div`
   /* IF THERE'S ONLY ONE ITEM */
@@ -69,7 +69,7 @@ const OrderDateID = styled(Row)`
 `;
 
 function OrderDetails({ order }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const allStates = State.getStatesOfCountry(order.shipping.country);
   const shippingState = allStates.find(
@@ -165,7 +165,7 @@ function OrderDetails({ order }) {
           </Row>
         </Row>
       </StyledOrderDetails>
-      <Button onClick={() => navigate("/")}>Back to home</Button>
+      {/* <Button onClick={() => navigate("/")}>Back to home</Button> */}
     </>
   );
 }
