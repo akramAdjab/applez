@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { toggleIntroVideo } from "../redux/introVideoSlice";
 
 import Button from "./Button";
+import VideoLoadingAnimation from "./VideoLoadingAnimation";
 
 const VideoContainer = styled.div`
   width: 100%;
@@ -141,7 +142,8 @@ function IntroVideo({ path }) {
   const [isPaused, setIsPaused] = useState(true);
   const [videoDuration, setVideoDuration] = useState();
   const [videoProgress, setVideoProgress] = useState(0);
-  const videoRef = useRef(null);
+  const [isLoadingVideo, setIsLoadingVideo] = useState(true);
+  const videoRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -172,6 +174,20 @@ function IntroVideo({ path }) {
     return () => clearTimeout(loadingTimeout);
   }, [isPaused, videoDuration, videoProgress]);
 
+  useEffect(
+    function () {
+      const video = videoRef.current;
+
+      if (!video) return;
+
+      const { length } = video.buffered;
+
+      if (!length) setIsLoadingVideo(true);
+      else setIsLoadingVideo(false);
+    },
+    [videoRef.current?.buffered?.length]
+  );
+
   function handlePlayPause() {
     const video = videoRef.current;
 
@@ -192,18 +208,22 @@ function IntroVideo({ path }) {
       </StyledButton>
 
       <div className="video-container">
-        <VideoPlayerControls
-          progress={videoProgress}
-          isPaused={isPaused}
-          onPlayPause={handlePlayPause}
-        />
+        {isLoadingVideo && <VideoLoadingAnimation />}
+
+        {!isLoadingVideo && (
+          <VideoPlayerControls
+            progress={videoProgress}
+            isPaused={isPaused}
+            onPlayPause={handlePlayPause}
+          />
+        )}
 
         <video
           data-cursor="-hidden"
           poster={`/assets/trailers/${path}__trailer/${path}__thumbnail.jpeg`}
           ref={videoRef}
           onLoadedMetadata={() => setVideoDuration(videoRef.current.duration)}
-          // controls
+          preload="metadata"
         >
           <source
             src={`/assets/trailers/${path}__trailer/${path}.mp4`}
