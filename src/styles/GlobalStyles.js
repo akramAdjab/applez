@@ -342,10 +342,11 @@ const GlobaStyles = createGlobalStyle`
     }
 
     .show-animation {
-        height: var(--space-13);
-        opacity: 1;
-        user-select: auto;
-        pointer-events: auto;
+        /* ADDED the "important" just to apply these styles whenever I wanted to disabled show and hide button feature */
+        height: var(--space-13) !important;
+        opacity: 1 !important;
+        user-select: auto !important;
+        pointer-events: auto !important;
     }
 
     .animated-background {

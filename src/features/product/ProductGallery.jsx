@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 const ImgsContainer = styled.div`
   align-self: start;
+  grid-row: 1 / 2;
 
   display: flex;
   border-radius: var(--border-radius-lg);

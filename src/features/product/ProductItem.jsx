@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { HiOutlineXMark } from "react-icons/hi2";
 import styled from "styled-components";
@@ -110,36 +110,36 @@ function ProductItem({ product }) {
     "AirPods_Pro_(2nd_Gen)",
   ];
 
-  useEffect(function () {
-    const mediaQuery = window.matchMedia("(max-width: 50em)");
+  // useEffect(function () {
+  //   const mediaQuery = window.matchMedia("(max-width: 50em)");
 
-    if (mediaQuery.matches) return;
+  //   if (mediaQuery.matches) return;
 
-    const element = containerRef.current;
-    const buttonContainer = buttonRef.current;
+  //   const element = containerRef.current;
+  //   const buttonContainer = buttonRef.current;
 
-    const observerFunction = function (entries) {
-      const [entry] = entries;
+  //   const observerFunction = function (entries) {
+  //     const [entry] = entries;
 
-      if (entry.isIntersecting) {
-        buttonContainer?.classList.add("show-animation");
-      } else {
-        buttonContainer?.classList.remove("show-animation");
-      }
-    };
+  //     if (entry.isIntersecting) {
+  //       buttonContainer?.classList.add("show-animation");
+  //     } else {
+  //       buttonContainer?.classList.remove("show-animation");
+  //     }
+  //   };
 
-    const observerOptions = {
-      root: null,
-      threshold: 0.6,
-    };
+  //   const observerOptions = {
+  //     root: null,
+  //     threshold: 0.6,
+  //   };
 
-    const observer = new IntersectionObserver(
-      observerFunction,
-      observerOptions
-    );
+  //   const observer = new IntersectionObserver(
+  //     observerFunction,
+  //     observerOptions
+  //   );
 
-    observer.observe(element);
-  });
+  //   observer.observe(element);
+  // });
 
   const {
     id,
@@ -154,31 +154,33 @@ function ProductItem({ product }) {
   }
 
   return (
-    <StyledProduct ref={containerRef}>
-      <ProductGallery
-        name={name}
-        variants={variants}
-        imgsIndex={imgsIndex}
-        assets={assets}
-      />
+    <>
+      <StyledProduct ref={containerRef}>
+        <ProductGallery
+          name={name}
+          variants={variants}
+          imgsIndex={imgsIndex}
+          assets={assets}
+        />
 
-      <ProductDetails
-        productId={id}
-        variants={variants}
-        price={price}
-        setImgsIndex={setImgsIndex}
-        onAddError={setErrorAddToCart}
-      />
+        <ProductDetails
+          productId={id}
+          variants={variants}
+          price={price}
+          setImgsIndex={setImgsIndex}
+          onAddError={setErrorAddToCart}
+        />
 
-      {errorAddToCart && (
-        <ErrorMessage>Please select the missing option!</ErrorMessage>
-      )}
+        {errorAddToCart && (
+          <ErrorMessage>Please select the missing option!</ErrorMessage>
+        )}
+      </StyledProduct>
 
       {showTrailerContainer &&
         availableProductTrailers.includes(
           product.name.replaceAll(" ", "_")
         ) && (
-          <ShowTrailer ref={buttonRef}>
+          <ShowTrailer ref={buttonRef} className="show-animation">
             <button
               className="animated-background animated-background--small"
               onClick={() =>
@@ -194,7 +196,7 @@ function ProductItem({ product }) {
             </button>
           </ShowTrailer>
         )}
-    </StyledProduct>
+    </>
   );
 }
 
